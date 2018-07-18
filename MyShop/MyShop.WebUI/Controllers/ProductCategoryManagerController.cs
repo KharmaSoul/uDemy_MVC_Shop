@@ -8,31 +8,31 @@ using MyShop.DataAccess.InMemory;
 
 namespace MyShop.WebUI.Controllers
 {
-    public class ProductManagerController : Controller
+    public class ProductCategoryManagerController : Controller
     {
-        c_productRepository cRepository;
+        c_productCategoryRepository cRepository;
 
         #region SUB - Constructor
-        public ProductManagerController()
+        public ProductCategoryManagerController()
         {
-            cRepository = new c_productRepository();
+            cRepository = new c_productCategoryRepository();
         }
         #endregion
 
         public ActionResult Index()
         {
-            List<c_modelProduct> ltProducts = cRepository.Collection().ToList();
+            List<c_modelProductCategory> ltProducts = cRepository.Collection().ToList();
             return View(ltProducts);
         }
 
         public ActionResult Create()
         {
-            c_modelProduct cItem = new c_modelProduct();
+            c_modelProductCategory cItem = new c_modelProductCategory();
             return View(cItem);
         }
 
         [HttpPost]
-        public ActionResult Create(c_modelProduct cItem)
+        public ActionResult Create(c_modelProductCategory cItem)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace MyShop.WebUI.Controllers
 
         public ActionResult Edit(string sID)
         {
-            c_modelProduct cItem = cRepository.Find(sID);
+            c_modelProductCategory cItem = cRepository.Find(sID);
 
             if (cItem == null)
             {
@@ -62,9 +62,9 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(c_modelProduct cItem, string sID)
+        public ActionResult Edit(c_modelProductCategory cItem, string sID)
         {
-            c_modelProduct cItemToEdit = cRepository.Find(sID);
+            c_modelProductCategory cItemToEdit = cRepository.Find(sID);
 
             if (cItemToEdit == null)
             {
@@ -78,11 +78,6 @@ namespace MyShop.WebUI.Controllers
                 }
 
                 cItemToEdit.Category = cItem.Category;
-                cItemToEdit.Description = cItem.Description;
-                cItemToEdit.Image = cItem.Image;
-                cItemToEdit.Name = cItem.Name;
-                cItemToEdit.Price = cItem.Price;
-
                 cRepository.Commit();
 
                 return RedirectToAction("Index");
@@ -91,7 +86,7 @@ namespace MyShop.WebUI.Controllers
 
         public ActionResult Delete(string sID)
         {
-            c_modelProduct cItemToDelete = cRepository.Find(sID);
+            c_modelProductCategory cItemToDelete = cRepository.Find(sID);
 
             if (cItemToDelete == null)
             {
@@ -107,7 +102,7 @@ namespace MyShop.WebUI.Controllers
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string sID)
         {
-            c_modelProduct cItemToDelete = cRepository.Find(sID);
+            c_modelProductCategory cItemToDelete = cRepository.Find(sID);
 
             if (cItemToDelete == null)
             {

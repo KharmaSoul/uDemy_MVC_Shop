@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyShop.Core.Models
 {
-    public class C_ModelProduct
+    public class c_modelProduct
     {
         public string ID { get; set; }
 
@@ -30,7 +30,7 @@ namespace MyShop.Core.Models
         public string Image { get; set; }
 
         #region SUB - Constructor
-        public C_ModelProduct()
+        public c_modelProduct()
         {
             ID = Guid.NewGuid().ToString();
         }
