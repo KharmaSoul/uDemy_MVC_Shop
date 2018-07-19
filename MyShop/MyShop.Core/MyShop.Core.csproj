@@ -41,9 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\c_modelProduct.cs" />
-    <Compile Include="Models\c_modelProductCategory.cs" />
+    <Compile Include="Models\ModelProduct.cs" />
+    <Compile Include="Models\ModelProductCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ViewModelProductManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

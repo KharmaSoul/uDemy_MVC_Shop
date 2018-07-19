@@ -4,52 +4,62 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.Core.Models;
+using MyShop.Core.ViewModels;
 using MyShop.DataAccess.InMemory;
 
 namespace MyShop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        c_productRepository cRepository;
+        ProductRepository cRepositoryProducts;
+        ProductCategoryRepository cRepositoryCategories;
 
         #region SUB - Constructor
         public ProductManagerController()
         {
-            cRepository = new c_productRepository();
+            cRepositoryProducts = new ProductRepository();
+            cRepositoryCategories = new ProductCategoryRepository();
         }
         #endregion
 
+        #region SUB - Index
         public ActionResult Index()
         {
-            List<c_modelProduct> ltProducts = cRepository.Collection().ToList();
+            List<ModelProduct> ltProducts = cRepositoryProducts.Collection().ToList();
             return View(ltProducts);
         }
-
+        #endregion
+        #region SUB - Create
         public ActionResult Create()
         {
-            c_modelProduct cItem = new c_modelProduct();
-            return View(cItem);
-        }
+            ViewModelProductManager viewModel = new ViewModelProductManager();
 
+            viewModel.Product = new ModelProduct();
+            viewModel.ProductCategories = cRepositoryCategories.Collection();
+            return View(viewModel);
+        }
+        #endregion
+        #region SUB - Create (Post)
         [HttpPost]
-        public ActionResult Create(c_modelProduct cItem)
+        public ActionResult Create(ModelProduct product)
         {
             if (!ModelState.IsValid)
             {
-                return View(cItem);
+                return View(product);
             }
             else
             {
-                cRepository.Insert(cItem);
-                cRepository.Commit();
+                cRepositoryProducts.Insert(product);
+                cRepositoryProducts.Commit();
 
                 return RedirectToAction("Index");
             }
         }
-
+        #endregion
+        #region SUB - Edit
         public ActionResult Edit(string sID)
         {
-            c_modelProduct cItem = cRepository.Find(sID);
+            ModelProduct cItem = cRepositoryProducts.Find(sID);
 
             if (cItem == null)
             {
@@ -57,14 +67,19 @@ namespace MyShop.WebUI.Controllers
             }
             else
             {
-                return View(cItem);
+                ViewModelProductManager viewModel = new ViewModelProductManager();
+                viewModel.Product = cItem;
+                viewModel.ProductCategories = cRepositoryCategories.Collection();
+
+                return View(viewModel);
             }
         }
-
+        #endregion
+        #region SUB - Edit (Post)
         [HttpPost]
-        public ActionResult Edit(c_modelProduct cItem, string sID)
+        public ActionResult Edit(ModelProduct product, string sID)
         {
-            c_modelProduct cItemToEdit = cRepository.Find(sID);
+            ModelProduct cItemToEdit = cRepositoryProducts.Find(sID);
 
             if (cItemToEdit == null)
             {
@@ -77,21 +92,22 @@ namespace MyShop.WebUI.Controllers
                     return View(cItemToEdit);
                 }
 
-                cItemToEdit.Category = cItem.Category;
-                cItemToEdit.Description = cItem.Description;
-                cItemToEdit.Image = cItem.Image;
-                cItemToEdit.Name = cItem.Name;
-                cItemToEdit.Price = cItem.Price;
+                cItemToEdit.Category = product.Category;
+                cItemToEdit.Description = product.Description;
+                cItemToEdit.Image = product.Image;
+                cItemToEdit.Name = product.Name;
+                cItemToEdit.Price = product.Price;
 
-                cRepository.Commit();
+                cRepositoryProducts.Commit();
 
                 return RedirectToAction("Index");
             }
         }
-
+        #endregion
+        #region SUB - Delete
         public ActionResult Delete(string sID)
         {
-            c_modelProduct cItemToDelete = cRepository.Find(sID);
+            ModelProduct cItemToDelete = cRepositoryProducts.Find(sID);
 
             if (cItemToDelete == null)
             {
@@ -102,12 +118,13 @@ namespace MyShop.WebUI.Controllers
                 return View(cItemToDelete);
             }
         }
-
+        #endregion
+        #region SUB - Delete (Post)
         [HttpPost]
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string sID)
         {
-            c_modelProduct cItemToDelete = cRepository.Find(sID);
+            ModelProduct cItemToDelete = cRepositoryProducts.Find(sID);
 
             if (cItemToDelete == null)
             {
@@ -115,10 +132,11 @@ namespace MyShop.WebUI.Controllers
             }
             else
             {
-                cRepository.Delete(sID);
-                cRepository.Commit();
+                cRepositoryProducts.Delete(sID);
+                cRepositoryProducts.Commit();
                 return RedirectToAction("Index");
             }
         }
+        #endregion
     }
 }

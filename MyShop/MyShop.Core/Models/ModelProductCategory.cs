@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MyShop.Core.Models
 {
-    public class c_modelProductCategory
+    public class ModelProductCategory
     {
         public string ID { get; set; }
         public string Category { get; set; }
 
         #region SUB - Constructor
-        public c_modelProductCategory()
+        public ModelProductCategory()
         {
             this.ID = Guid.NewGuid().ToString();
         }

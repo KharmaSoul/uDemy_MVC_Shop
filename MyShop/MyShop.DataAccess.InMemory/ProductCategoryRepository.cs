@@ -8,19 +8,19 @@ using MyShop.Core.Models;
 
 namespace MyShop.DataAccess.InMemory
 {
-    public class c_productRepository
+    public class ProductCategoryRepository
     {
         ObjectCache ocCache = MemoryCache.Default;
-        List<c_modelProduct> ltProducts;
+        List<ModelProductCategory> ltCategories;
 
         #region SUB - Constructor
-        public c_productRepository()
+        public ProductCategoryRepository()
         {
-            ltProducts = ocCache["Products"] as List<c_modelProduct>;
+            ltCategories = ocCache["ProductsCategories"] as List<ModelProductCategory>;
 
-            if (ltProducts == null)
+            if (ltCategories == null)
             {
-                ltProducts = new List<c_modelProduct>();
+                ltCategories = new List<ModelProductCategory>();
             }
         }
         #endregion
@@ -28,19 +28,19 @@ namespace MyShop.DataAccess.InMemory
         #region SUB - Commit
         public void Commit()
         {
-            ocCache["Products"] = ltProducts;
+            ocCache["ProductsCategories"] = ltCategories;
         }
         #endregion
         #region SUB - Insert
-        public void Insert(c_modelProduct cItem)
+        public void Insert(ModelProductCategory cItem)
         {
-            ltProducts.Add(cItem);
+            ltCategories.Add(cItem);
         }
         #endregion
         #region SUB - Update
-        public void Update(c_modelProduct cItem)
+        public void Update(ModelProductCategory cItem)
         {
-            c_modelProduct cItemToUpdate = ltProducts.Find(p => p.ID == cItem.ID);
+            ModelProductCategory cItemToUpdate = ltCategories.Find(p => p.ID == cItem.ID);
 
             if (cItemToUpdate != null)
             {
@@ -48,14 +48,14 @@ namespace MyShop.DataAccess.InMemory
             }
             else
             {
-                throw new Exception("Product not found!");
+                throw new Exception("Product category not found!");
             }
         }
         #endregion
         #region SUB - Find
-        public c_modelProduct Find(string sID)
+        public ModelProductCategory Find(string sID)
         {
-            c_modelProduct cItemToFind = ltProducts.Find(p => p.ID == sID);
+            ModelProductCategory cItemToFind = ltCategories.Find(p => p.ID == sID);
 
             if (cItemToFind != null)
             {
@@ -63,28 +63,28 @@ namespace MyShop.DataAccess.InMemory
             }
             else
             {
-                throw new Exception("Product not found!");
+                throw new Exception("Product category not found!");
             }
         }
         #endregion
         #region SUB - Collection
-        public IQueryable<c_modelProduct> Collection()
+        public IQueryable<ModelProductCategory> Collection()
         {
-            return ltProducts.AsQueryable();
+            return ltCategories.AsQueryable();
         }
         #endregion
         #region SUB - Delete
         public void Delete(string sID)
         {
-            c_modelProduct cItemToDelete = ltProducts.Find(p => p.ID == sID);
+            ModelProductCategory cItemToDelete = ltCategories.Find(p => p.ID == sID);
 
             if (cItemToDelete != null)
             {
-                ltProducts.Remove(cItemToDelete);
+                ltCategories.Remove(cItemToDelete);
             }
             else
             {
-                throw new Exception("Product not found!");
+                throw new Exception("Product category not found!");
             }
         }
         #endregion

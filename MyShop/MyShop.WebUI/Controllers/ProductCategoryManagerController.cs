@@ -10,29 +10,29 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
-        c_productCategoryRepository cRepository;
+        ProductCategoryRepository cRepository;
 
         #region SUB - Constructor
         public ProductCategoryManagerController()
         {
-            cRepository = new c_productCategoryRepository();
+            cRepository = new ProductCategoryRepository();
         }
         #endregion
 
         public ActionResult Index()
         {
-            List<c_modelProductCategory> ltProducts = cRepository.Collection().ToList();
+            List<ModelProductCategory> ltProducts = cRepository.Collection().ToList();
             return View(ltProducts);
         }
 
         public ActionResult Create()
         {
-            c_modelProductCategory cItem = new c_modelProductCategory();
+            ModelProductCategory cItem = new ModelProductCategory();
             return View(cItem);
         }
 
         [HttpPost]
-        public ActionResult Create(c_modelProductCategory cItem)
+        public ActionResult Create(ModelProductCategory cItem)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace MyShop.WebUI.Controllers
 
         public ActionResult Edit(string sID)
         {
-            c_modelProductCategory cItem = cRepository.Find(sID);
+            ModelProductCategory cItem = cRepository.Find(sID);
 
             if (cItem == null)
             {
@@ -62,9 +62,9 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(c_modelProductCategory cItem, string sID)
+        public ActionResult Edit(ModelProductCategory cItem, string sID)
         {
-            c_modelProductCategory cItemToEdit = cRepository.Find(sID);
+            ModelProductCategory cItemToEdit = cRepository.Find(sID);
 
             if (cItemToEdit == null)
             {
@@ -86,7 +86,7 @@ namespace MyShop.WebUI.Controllers
 
         public ActionResult Delete(string sID)
         {
-            c_modelProductCategory cItemToDelete = cRepository.Find(sID);
+            ModelProductCategory cItemToDelete = cRepository.Find(sID);
 
             if (cItemToDelete == null)
             {
@@ -102,7 +102,7 @@ namespace MyShop.WebUI.Controllers
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string sID)
         {
-            c_modelProductCategory cItemToDelete = cRepository.Find(sID);
+            ModelProductCategory cItemToDelete = cRepository.Find(sID);
 
             if (cItemToDelete == null)
             {
