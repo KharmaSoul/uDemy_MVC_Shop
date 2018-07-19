@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyShop.DataAccess.InMemory
 {
-    public class InMemoryRepository<Item> where Item : BaseEntity
+    public class InMemoryRepository<Item> : IRepository<Item> where Item : BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
 
